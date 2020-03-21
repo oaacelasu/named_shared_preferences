@@ -15,4 +15,8 @@ class NamedSharedPreferences {
     final String token = await _channel.invokeMethod('getToken');
     return token;
   }
+
+  static Future<bool> setToken() async {
+    return _channel.invokeMethod('setToken')??false;
+  }
 }

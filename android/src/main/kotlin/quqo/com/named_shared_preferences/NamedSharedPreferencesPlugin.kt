@@ -1,7 +1,9 @@
 package quqo.com.named_shared_preferences
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -39,6 +41,7 @@ public class NamedSharedPreferencesPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
+  @TargetApi(Build.VERSION_CODES.GINGERBREAD)
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     when (call.method) {
       "getPlatformVersion" -> {
@@ -46,6 +49,10 @@ public class NamedSharedPreferencesPlugin: FlutterPlugin, MethodCallHandler {
       }
       "getToken" -> {
         result.success(preferences?.getString("PREF_KEY_ACCESS_TOKEN", null))
+      }
+      "setToken" -> {
+        preferences?.edit()?.putString("PREF_KEY_ACCESS_TOKEN", null)?.apply()
+        result.success(true)
       }
       else -> {
         result.notImplemented()
