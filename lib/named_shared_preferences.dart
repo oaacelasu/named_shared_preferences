@@ -11,12 +11,16 @@ class NamedSharedPreferences {
     return version;
   }
 
-  static Future<String> get token async {
-    final String token = await _channel.invokeMethod('getToken');
+  static Future<String?> get token async {
+    final String? token = await _channel.invokeMethod('getToken');
     return token;
   }
 
   static Future<bool> setToken() async {
-    return _channel.invokeMethod('setToken')??false;
+    final r = await _channel.invokeMethod('setToken');
+    if (r !is bool) {
+      return false;
+    }
+    return r;
   }
 }
